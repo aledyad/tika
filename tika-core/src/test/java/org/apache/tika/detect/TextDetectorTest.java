@@ -57,7 +57,8 @@ public class TextDetectorTest {
     public void testDetectText() throws Exception {
         assertText("Hello, World!".getBytes(UTF_8));
         assertText(" \t\r\n".getBytes(UTF_8));
-        assertNotText(new byte[] { -1, -2, -3, 0x09, 0x0A, 0x0C, 0x0D, 0x1B });
+        assertText("Привет, Мир!".getBytes("windows-1251"));
+        assertNotText(new byte[] { -1, -2, -3, 0x09, 0x0A, 0x0C, 0x0D, 0x1B, 0x1C });
         assertNotText(new byte[] { 0 });
         assertNotText(new byte[] { 'H', 'e', 'l', 'l', 'o', 0 });
 
