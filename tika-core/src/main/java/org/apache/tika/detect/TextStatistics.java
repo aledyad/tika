@@ -45,11 +45,20 @@ public class TextStatistics {
      */
     public boolean isMostlyAscii() {
         int control = count(0, 0x20);
-        int ascii = count(0x20, 0x7e) + count(0xc0, 0xff);
+        int ascii = count(0x20, 0x7e) + count(0xc0, 0xff) + count(0xa8) + count(0xb8);
         int safe = countSafeControl();
         return total > 0
                 && (control - safe) * 100 < total * 2
                 && (ascii + safe) * 100 > total * 90;
+    }
+
+    public boolean isMostlyOEM() {
+        int control = count(0, 0x20);
+        int oem = count(0x20, 0x7e) + count(0x80, 0xaf) + count(0xe0, 0xf1);
+        int safe = countSafeControl();
+        return total > 0
+                && (control - safe) * 100 < total * 2
+                && (oem + safe) * 100 > total * 90;
     }
 
     /**

@@ -57,7 +57,16 @@ public class TextDetectorTest {
     public void testDetectText() throws Exception {
         assertText("Hello, World!".getBytes(UTF_8));
         assertText(" \t\r\n".getBytes(UTF_8));
-        assertText("Привет, Мир!".getBytes("windows-1251"));
+        assertText((
+            "До весны неделя\n" +
+            "Посчитали мы\n" +
+            "Ну и где то месяц\n" +
+            "До конца зимы").getBytes("windows-1251"));
+        assertText((
+            "Ласточка с весною\n" +
+            "В сени к нам летит\n" +
+            "Но не завернула\n" +
+            "И в стене торчит").getBytes("cp866"));
         assertNotText(new byte[] { -1, -2, -3, 0x09, 0x0A, 0x0C, 0x0D, 0x1B, 0x1C });
         assertNotText(new byte[] { 0 });
         assertNotText(new byte[] { 'H', 'e', 'l', 'l', 'o', 0 });
@@ -76,9 +85,9 @@ public class TextDetectorTest {
         Arrays.fill(data, (byte) '.');
         data[0] = 0x1f;
         assertText(data);
-        Arrays.fill(data, 100, 150, (byte) 0x83);
+        Arrays.fill(data, 100, 150, (byte) 0xb1);
         assertText(data); // almost text
-        Arrays.fill(data, 100, 200, (byte) 0x83);
+        Arrays.fill(data, 100, 200, (byte) 0xb1);
         assertNotText(data); // no longer almost text, too many non-ASCII
         Arrays.fill(data, (byte) 0x1f);
         assertNotText(data);
